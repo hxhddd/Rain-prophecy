@@ -3,232 +3,524 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a1428">
   <title>🌦️ สภาพอากาศประเทศไทย</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="app">
 
-    <!-- HEADER -->
     <header class="app-header">
       <div class="header-content">
+
         <div class="header-brand">
           🌦️ สภาพอากาศประเทศไทย
         </div>
+
         <div class="header-buttons">
-          <button class="header-btn" id="simpleModeBtn" title="อ่านง่าย">
+          <button
+            class="header-btn"
+            id="simpleModeBtn"
+            type="button"
+            title="อ่านง่าย"
+          >
             🔤 อ่านง่าย
           </button>
-          <button class="header-btn" id="devBtn" title="Developer">
+
+          <button
+            class="header-btn"
+            id="devBtn"
+            type="button"
+            title="Developer"
+          >
             ⚙️ Dev
           </button>
         </div>
+
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="app-main">
 
-      <!-- MAP SECTION -->
       <section class="map-section">
-        <div id="map" class="map-container"></div>
-        <div class="map-toolbar">
-          <button class="map-btn" id="gpsBtn">📍 ตำแหน่งของฉัน</button>
-          <button class="map-btn" id="radarBtn">🌧️ เรดาร์</button>
+
+        <div class="map-search">
+          <form id="locationSearchForm" class="search-form">
+            <input
+              type="search"
+              id="locationSearchInput"
+              class="location-search-input"
+              placeholder="🔎 ค้นหาพื้นที่ จังหวัด อำเภอ ถนน..."
+              autocomplete="off"
+              enterkeyhint="search"
+            >
+
+            <button
+              class="search-btn"
+              id="locationSearchBtn"
+              type="submit"
+            >
+              ค้นหา
+            </button>
+          </form>
+
+          <div
+            class="search-results"
+            id="locationSearchResults"
+            aria-live="polite"
+          ></div>
         </div>
+
+        <div id="map" class="map-container"></div>
+
+        <div class="map-toolbar">
+          <button
+            class="map-btn"
+            id="gpsBtn"
+            type="button"
+          >
+            📍 ตำแหน่งของฉัน
+          </button>
+
+          <button
+            class="map-btn"
+            id="radarBtn"
+            type="button"
+          >
+            🌧️ เรดาร์
+          </button>
+        </div>
+
       </section>
 
-      <!-- CONTENT AREA -->
       <div class="content-wrapper">
 
-        <!-- THAILAND OVERVIEW -->
         <section class="panel-card overview-section">
+
           <div class="panel-header">
-            <h2 class="panel-title">🇹🇭 ภาพรวมประเทศไทย</h2>
-            <p class="panel-subtitle">แตะเมือง หรือคลิกบนแผนที่เพื่อดูสภาพอากาศ</p>
+            <h2 class="panel-title">
+              🇹🇭 ภาพรวมสภาพอากาศ
+            </h2>
+
+            <p class="panel-subtitle">
+              กรุงเทพฯ และพื้นที่อื่นแบบสุ่ม
+            </p>
           </div>
+
           <div class="panel-body">
-            <div class="city-grid" id="cityGrid"></div>
-            <div class="weather-legend">
-              <span class="legend-item">☀️ แจ่มใส</span>
-              <span class="legend-item">⛅ มีเมฆ</span>
-              <span class="legend-item">🌦️ มีฝนเล็กน้อย</span>
-              <span class="legend-item">🌧️ มีฝน</span>
-              <span class="legend-item">⛈️ ฝนฟ้าคะนอง</span>
-            </div>
+
+            <div
+              class="city-grid"
+              id="cityGrid"
+            ></div>
+
           </div>
+
         </section>
 
-        <!-- SELECTED LOCATION -->
         <section class="panel-card location-section">
+
           <div class="panel-header">
-            <h2 class="panel-title">📍 ตำแหน่งที่เลือก</h2>
-            <p class="panel-subtitle" id="selectedCoords">กำลังโหลด...</p>
+            <h2 class="panel-title">
+              📍 สภาพอากาศพื้นที่ที่เลือก
+            </h2>
+
+            <p
+              class="panel-subtitle"
+              id="selectedCoords"
+            >
+              กำลังโหลด...
+            </p>
           </div>
+
           <div class="panel-body">
 
-            <!-- Weather Display -->
             <div class="weather-main">
+
               <div class="weather-info">
-                <div class="location-name" id="selectedName">กรุงเทพฯ</div>
-                <div class="temperature" id="temperature">--°C</div>
-                <div class="weather-desc" id="weatherDescription">กำลังโหลด...</div>
+
+                <div
+                  class="location-name"
+                  id="selectedName"
+                >
+                  กรุงเทพฯ
+                </div>
+
+                <div
+                  class="temperature"
+                  id="temperature"
+                >
+                  --°C
+                </div>
+
+                <div
+                  class="weather-desc"
+                  id="weatherDescription"
+                >
+                  กำลังโหลด...
+                </div>
+
               </div>
-              <div class="weather-icon-large" id="weatherIcon">🌤️</div>
+
+              <div
+                class="weather-icon-large"
+                id="weatherIcon"
+                aria-label="สภาพอากาศ"
+              >
+                🌤️
+              </div>
+
             </div>
 
-            <!-- Rain Status -->
             <div class="status-box">
-              <div class="status-title">🌧️ สถานะฝน</div>
-              <div class="status-text" id="rainStatus">กำลังตรวจสอบข้อมูล...</div>
+
+              <div class="status-title">
+                🌧️ สถานะฝนตอนนี้
+              </div>
+
+              <div
+                class="status-text"
+                id="rainStatus"
+              >
+                กำลังตรวจสอบข้อมูล...
+              </div>
+
             </div>
 
-            <!-- GPS Button -->
-            <button class="btn btn-primary" id="gpsBtnBottom">
+            <button
+              class="btn btn-primary"
+              id="gpsBtnBottom"
+              type="button"
+            >
               📍 ใช้ตำแหน่งของฉัน
             </button>
 
-            <!-- GPS Error -->
-            <div class="error-box" id="gpsError" style="display: none;"></div>
+            <div
+              class="error-box"
+              id="gpsError"
+              style="display: none;"
+            ></div>
 
-            <!-- Recommendation -->
             <div class="recommendation-box">
-              <div class="rec-icon">💡</div>
-              <div class="rec-text" id="recommendation">กำลังประเมินสภาพอากาศ...</div>
+
+              <div class="rec-icon">
+                💡
+              </div>
+
+              <div
+                class="rec-text"
+                id="recommendation"
+              >
+                กำลังประเมินสภาพอากาศ...
+              </div>
+
             </div>
 
           </div>
+
         </section>
 
-        <!-- RAIN FORECAST TIMELINE -->
         <section class="panel-card timeline-section">
+
           <div class="panel-header">
-            <h2 class="panel-title">🌧️ แนวโน้มฝน 2 ชั่วโมง</h2>
-            <p class="panel-subtitle" id="forecastUpdated">--</p>
+
+            <h2 class="panel-title">
+              🌦️ พยากรณ์สภาพอากาศล่วงหน้า 2 ชั่วโมง
+            </h2>
+
+            <p
+              class="panel-subtitle"
+              id="forecastUpdated"
+            >
+              --
+            </p>
+
           </div>
+
           <div class="panel-body">
-            <div class="timeline-container" id="timeline"></div>
+
+            <div
+              class="forecast-summary"
+              id="forecastSummary"
+            >
+              กำลังโหลดข้อมูลพยากรณ์...
+            </div>
+
+            <div
+              class="timeline-container"
+              id="timeline"
+            ></div>
+
           </div>
+
         </section>
 
-        <!-- DETAILS SECTION -->
         <section class="panel-card detail-section">
+
           <div class="panel-header">
-            <h2 class="panel-title">📊 ข้อมูลเพิ่มเติม</h2>
+
+            <h2 class="panel-title">
+              📊 รายละเอียดสภาพอากาศ
+            </h2>
+
+            <p class="panel-subtitle">
+              แสดงเฉพาะข้อมูลที่ได้รับจากแหล่งข้อมูลจริง
+            </p>
+
           </div>
+
           <div class="panel-body">
-            <div class="detail-grid" id="detailGrid">
+
+            <div
+              class="detail-grid"
+              id="detailGrid"
+            >
+
               <div class="detail-card">
-                <div class="detail-label">อุณหภูมิ</div>
-                <div class="detail-value" id="detailTemp">--</div>
+                <div class="detail-label">
+                  อุณหภูมิ
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailTemp"
+                >
+                  --
+                </div>
               </div>
+
               <div class="detail-card">
-                <div class="detail-label">ฝน</div>
-                <div class="detail-value" id="detailRain">--</div>
+                <div class="detail-label">
+                  ฝน
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailRain"
+                >
+                  --
+                </div>
               </div>
+
               <div class="detail-card">
-                <div class="detail-label">โอกาสฝน</div>
-                <div class="detail-value" id="detailProbability">--</div>
+                <div class="detail-label">
+                  โอกาสฝน
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailProbability"
+                >
+                  --
+                </div>
               </div>
+
               <div class="detail-card">
-                <div class="detail-label">เมฆ</div>
-                <div class="detail-value" id="detailCloud">--</div>
+                <div class="detail-label">
+                  เมฆ
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailCloud"
+                >
+                  --
+                </div>
               </div>
+
               <div class="detail-card">
-                <div class="detail-label">ลม</div>
-                <div class="detail-value" id="detailWind">--</div>
+                <div class="detail-label">
+                  ลม
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailWind"
+                >
+                  --
+                </div>
               </div>
+
               <div class="detail-card">
-                <div class="detail-label">อัปเดต</div>
-                <div class="detail-value" id="detailUpdated">--</div>
+                <div class="detail-label">
+                  อัปเดต
+                </div>
+
+                <div
+                  class="detail-value"
+                  id="detailUpdated"
+                >
+                  --
+                </div>
               </div>
+
             </div>
+
           </div>
+
         </section>
 
-        <!-- CHAT / AI ASSISTANT -->
         <section class="panel-card chat-section">
+
           <div class="panel-header">
-            <h2 class="panel-title">💬 ถามสภาพอากาศ</h2>
-            <p class="panel-subtitle">ถามเกี่ยวกับข้อมูลพื้นที่ที่กำลังดู</p>
+
+            <h2 class="panel-title">
+              💬 ผู้ช่วยอธิบายสภาพอากาศ
+            </h2>
+
+            <p class="panel-subtitle">
+              ดูข้อมูลไม่เข้าใจ? ให้ผู้ช่วยอ่านข้อมูลแทนคุณ
+            </p>
+
           </div>
+
           <div class="panel-body">
 
-            <!-- Chat Answer Display -->
-            <div class="chat-answer-box" id="chatAnswer">
-              เลือกคำถามข้างล่าง หรือพิมพ์คำถามของคุณ
+            <div class="assistant-intro">
+              ถามเกี่ยวกับสภาพอากาศที่กำลังดูอยู่ได้
+              ผู้ช่วยจะช่วยอธิบายข้อมูล เช่น ฝน เมฆ แดด
+              อุณหภูมิ และแนวโน้มในอีก 1–2 ชั่วโมง
             </div>
 
-            <!-- Suggested Questions -->
+            <div
+              class="chat-answer-box"
+              id="chatAnswer"
+            >
+              เลือกคำถามด้านล่าง หรือพิมพ์คำถามเกี่ยวกับสภาพอากาศ
+            </div>
+
             <div class="question-grid">
-              <button class="question-btn" data-question="ฝนจะตกเมื่อไหร่?">
-                ฝนจะตกเมื่อไหร่?
+
+              <button
+                class="question-btn"
+                type="button"
+                data-question="ตอนนี้สภาพอากาศเป็นอย่างไร?"
+              >
+                ตอนนี้เป็นอย่างไร?
               </button>
-              <button class="question-btn" data-question="ตอนนี้ควรออกจากบ้านไหม?">
-                ควรออกไหม?
+
+              <button
+                class="question-btn"
+                type="button"
+                data-question="อีกหนึ่งชั่วโมงสภาพอากาศจะเป็นอย่างไร?"
+              >
+                อีก 1 ชั่วโมงเป็นอย่างไร?
               </button>
-              <button class="question-btn" data-question="ช่วยอธิบายสภาพอากาศให้เข้าใจง่าย">
-                อธิบายง่าย ๆ
+
+              <button
+                class="question-btn"
+                type="button"
+                data-question="วันนี้ควรออกจากบ้านไหม?"
+              >
+                วันนี้ควรออกไหม?
               </button>
+
+              <button
+                class="question-btn"
+                type="button"
+                data-question="ช่วงไหนฝนจะตก?"
+              >
+                ฝนจะตกช่วงไหน?
+              </button>
+
             </div>
 
-            <!-- Chat Input -->
             <textarea
               class="chat-input"
               id="chatInput"
               placeholder="ถามเกี่ยวกับสภาพอากาศที่นี่..."
               rows="3"
+              enterkeyhint="send"
             ></textarea>
 
-            <!-- Send Button -->
-            <button class="btn btn-secondary" id="chatBtn">
-              ส่ง
+            <button
+              class="btn btn-secondary"
+              id="chatBtn"
+              type="button"
+            >
+              💬 ให้ผู้ช่วยอธิบาย
             </button>
 
           </div>
+
         </section>
 
-        <!-- DEV PANEL (Hidden by default) -->
-        <section class="panel-card dev-section" id="devPanel">
+        <section
+          class="panel-card dev-section"
+          id="devPanel"
+        >
+
           <div class="panel-header">
-            <h2 class="panel-title">⚙️ Developer Panel</h2>
-            <p class="panel-subtitle">สำหรับทดสอบเท่านั้น</p>
+
+            <h2 class="panel-title">
+              ⚙️ Developer Panel
+            </h2>
+
+            <p class="panel-subtitle">
+              สำหรับทดสอบเท่านั้น
+            </p>
+
           </div>
+
           <div class="panel-body">
 
             <div class="dev-warning">
-              ⚠️ ใช้สำหรับทดสอบเชื่อมต่อ Gemini API เท่านั้น อย่านำไปใช้ในสินค้า
+              ⚠️ ส่วนนี้ใช้สำหรับการทดสอบภายในเท่านั้น
+              ยังไม่ใช่ระบบ AI สำหรับผู้ใช้จริง
             </div>
 
             <div class="dev-form-group">
-              <label for="geminiKey">Gemini API Key</label>
+
+              <label for="geminiKey">
+                Gemini API Key
+              </label>
+
               <input
                 type="password"
                 id="geminiKey"
                 placeholder="ใส่ Gemini API Key ที่นี่"
                 autocomplete="off"
               >
+
             </div>
 
             <div class="dev-form-group">
-              <label for="devPrompt">Prompt</label>
+
+              <label for="devPrompt">
+                Prompt
+              </label>
+
               <textarea
                 id="devPrompt"
                 placeholder="ใส่ prompt ที่ต้องการทดสอบ"
                 rows="3"
               >ช่วยอธิบายข้อมูลสภาพอากาศนี้ให้ผู้ใช้ทั่วไปเข้าใจง่าย</textarea>
+
             </div>
 
-            <button class="btn btn-primary" id="geminiTestBtn">
+            <button
+              class="btn btn-primary"
+              id="geminiTestBtn"
+              type="button"
+            >
               🤖 ทดสอบ Gemini
             </button>
 
-            <div class="dev-response-box" id="devResponse">
+            <div
+              class="dev-response-box"
+              id="devResponse"
+            >
               ยังไม่มีผลการทดสอบ
             </div>
 
           </div>
+
         </section>
 
       </div>
@@ -237,8 +529,8 @@
 
   </div>
 
-  <!-- SCRIPTS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
